@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1020023204307",
+    "project_id": "komunoto-apps",
+    "storage_bucket": "komunoto-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020023204307:android:4fe1c65b4debff9e42a726",
+        "android_client_info": {
+          "package_name": "com.example.komunoto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020023204307-0tjijrn8blfaclapkukfgpka92i2ta9a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGZLy5lJJY6Exc9KuwTT434eEjNQI4e3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020023204307-0tjijrn8blfaclapkukfgpka92i2ta9a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1020023204307-346gsrfklbl5oe0jpjp59mjpl8uqr89q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.komunoto.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
