@@ -13,7 +13,7 @@ class ButtonNext extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: width * 1, // 80% of screen width
+        width: width * 0.8, // 80% of screen width
         height: height * 0.06, // 6% of screen height
         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
         decoration: ShapeDecoration(
