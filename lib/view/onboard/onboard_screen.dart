@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:komunoto/view/Auth/login_page.dart';
 import 'package:komunoto/custom/button_login.dart';
 import 'package:komunoto/custom/button_passed.dart';
+import 'package:komunoto/view/home_screen/home_screen.dart';
 import 'slider.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -102,7 +103,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 ButtonPassed(
                   text: 'Lewati',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  },
                 ),
               ],
             ),

@@ -118,30 +118,23 @@ class _InterestScreenState extends State<InterestScreen>
                           child: Card(
                             child: Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
                                 gradient: LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: selectedCars.contains(car)
                                       ? [
-                                          Color(0xFFEE7D32),
-                                          Color(0xFFFCD5A6),
-                                          Color(0xFFFBC788),
-                                          Color(0xFFFDDBB3),
-                                          Color(0x2BF09942),
-                                          Color(0xFFF4AE66),
-                                          Color(0xB2EE7D32),
+                                          Color(0xB3EE7D32),
                                           Color(0xCCEE7D32),
-                                          Color(0xE5EE7D32),
-                                          Color(0xE5EE7D32),
-                                          Color(0xE5EE7D32),
+                                          Color(0xE6EE7D32),
+                                          Color(0xE6EE7D32),
+                                          Color(0xE6EE7D32),
                                           Color(0xFFEE7D32),
                                           Color(0xFFEE7D32),
                                           Color(0xFFEE7D32),
                                           Color(0xFFEE7D32),
                                           Color(0xFFEE7D32),
-                                          Color(0xFFF09741),
-                                          Color(0xFFF9B461),
-                                          Color(0xFFEE7D32)
+                                          Color(0xFFEE7D32),
                                         ]
                                       : [Colors.white, Colors.white],
                                 ),
@@ -180,25 +173,17 @@ class _InterestScreenState extends State<InterestScreen>
                                   colors:
                                       selectedMotorcycle.contains(motorcycle)
                                           ? [
-                                              Color(0xFFEE7D32),
-                                              Color(0xFFFCD5A6),
-                                              Color(0xFFFBC788),
-                                              Color(0xFFFDDBB3),
-                                              Color(0x2BF09942),
-                                              Color(0xFFF4AE66),
-                                              Color(0xB2EE7D32),
+                                              Color(0xB3EE7D32),
                                               Color(0xCCEE7D32),
-                                              Color(0xE5EE7D32),
-                                              Color(0xE5EE7D32),
-                                              Color(0xE5EE7D32),
+                                              Color(0xE6EE7D32),
+                                              Color(0xE6EE7D32),
+                                              Color(0xE6EE7D32),
                                               Color(0xFFEE7D32),
                                               Color(0xFFEE7D32),
                                               Color(0xFFEE7D32),
                                               Color(0xFFEE7D32),
                                               Color(0xFFEE7D32),
-                                              Color(0xFFF09741),
-                                              Color(0xFFF9B461),
-                                              Color(0xFFEE7D32)
+                                              Color(0xFFEE7D32),
                                             ]
                                           : [Colors.white, Colors.white],
                                 ),

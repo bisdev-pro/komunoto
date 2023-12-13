@@ -13,6 +13,18 @@ class BerandaPage extends StatefulWidget {
 
 class _BerandaPageState extends State<BerandaPage> {
   final BerandaController berandaController = BerandaController();
+  int _currentPage = 0;
+  final _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +36,12 @@ class _BerandaPageState extends State<BerandaPage> {
         onPressed: () {
           // Add your onPressed code here!
         },
-        child: Image.asset('assets/emergency/emergency_widget.png', width: 62 * width /720, height: 62 *height /720,),
         backgroundColor: Colors.white,
-        
+        child: Image.asset(
+          'assets/emergency/emergency_widget.png',
+          width: 62 * width / 720,
+          height: 62 * height / 720,
+        ),
       ),
       appBar: null,
       body: SingleChildScrollView(
@@ -58,8 +73,10 @@ class _BerandaPageState extends State<BerandaPage> {
                                             alignment: Alignment.center,
                                             child: SvgPicture.asset(
                                               'assets/icon_navigation/icon_profile.svg',
-                                              colorFilter: ColorFilter.mode(
-                                                  Colors.grey, BlendMode.srcIn),
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                      Colors.grey,
+                                                      BlendMode.srcIn),
                                               height: size *
                                                   0.8, // adjust the multiplier to fit your needs
                                               width: size *
@@ -146,14 +163,15 @@ class _BerandaPageState extends State<BerandaPage> {
                   width: width * 1,
                   child: Card(
                       child: Row(children: [
-                    Image(image: AssetImage('assets/emergency/emergency.png')),
+                    const Image(
+                        image: AssetImage('assets/emergency/emergency.png')),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Anda Dalam Keadaan Darurat?',
                           style: GoogleFonts.poppins(
-                            fontSize: 23 * width / 720,
+                            fontSize: 22 * width / 720,
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
@@ -196,7 +214,7 @@ class _BerandaPageState extends State<BerandaPage> {
                   ]))),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                 children: [
                   Row(
@@ -234,25 +252,15 @@ class _BerandaPageState extends State<BerandaPage> {
                             berandaController.listCommunity.map<Widget>((data) {
                           return SizedBox(
                             width: 100,
-                            height: height,
+                            height: height * 0.2,
                             child: Column(
                               children: [
                                 Stack(
                                   children: [
-                                    Card(
-                                      semanticContainer: true,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      elevation: 5,
-                                      margin: const EdgeInsets.all(10),
+                                    SizedBox(
                                       child: Image.asset(
                                         data['imageUrl']!,
-                                        width: 77,
-                                        height: 77,
-                                        fit: BoxFit.fill,
+                                        width: 0.5 * width,
                                       ),
                                     ),
                                     Positioned(
@@ -289,9 +297,200 @@ class _BerandaPageState extends State<BerandaPage> {
                   ),
                 ],
               ),
-            )
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: contents.length,
+                    itemBuilder: (context, i) {
+                      return Stack(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Image.asset(
+                              'assets/png/slider_event.png',
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          Positioned(
+                            left: MediaQuery.of(context).size.width * 0.030,
+                            top: MediaQuery.of(context).size.height * 0.10,
+                            child: Text(
+                              contents[i].title ?? '',
+                              style: GoogleFonts.poppins(
+                                fontSize: 32 *
+                                    MediaQuery.of(context).size.width /
+                                    720,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: MediaQuery.of(context).size.width * 0.030,
+                            top: MediaQuery.of(context).size.height * 0.12,
+                            child: Text(
+                              contents[i].description ?? '',
+                              style: GoogleFonts.poppins(
+                                fontSize: 20 *
+                                    MediaQuery.of(context).size.width /
+                                    720,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            bottom: 20,
+                            right: 0,
+                            child: Container(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(
+                                      contents.length,
+                                      (index) =>
+                                          buildDot(index, context, width))),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                )),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Rekomendasi Bengkel Pilihan',
+                          style: GoogleFonts.poppins(
+                              fontSize: 28 * width / 720,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          'Lihat Semua',
+                          style: GoogleFonts.poppins(
+                              fontSize: 20 * width / 720,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryColor),
+                        ),
+                      ],
+                    ),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                                width: 0.4 * width,
+                                height: height * 0.2,
+                                decoration: BoxDecoration(
+                                  // color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.asset(
+                                            'assets/png/slider_event.png',
+                                            height: height * 0.1,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Positioned(
+                                         bottom: 0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.red),
+                                            child: IntrinsicWidth(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text('A'),
+                                                  Text('b'),
+                                                  Text('c')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      decoration:
+                                          BoxDecoration(color: Colors.red),
+                                      child: IntrinsicWidth(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text('A'),
+                                            Text('b'),
+                                            Text('c')
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            SizedBox(
+                              width: 0.4 * width,
+                              height: height * 0.2,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/png/slider_event.png',
+                                    width: 0.5 * width,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 0.4 * width,
+                              height: height * 0.2,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/png/slider_event.png',
+                                    width: 0.5 * width,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ))
+                  ],
+                ))
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildDot(int index, BuildContext context, double width) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.only(right: 5),
+      height: index == _currentPage ? 10 : 6,
+      width: index == _currentPage ? 10 : 6,
+      decoration: BoxDecoration(
+        color: index == _currentPage ? Colors.white : Colors.grey,
+        borderRadius: BorderRadius.circular(5),
       ),
     );
   }
