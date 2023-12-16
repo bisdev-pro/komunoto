@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const String apiURL = 'https://api.komunoto.com';
+const String apiURL = 'http://178.16.138.109:4000';
 
 //function registrasi phone
 Future<http.Response> postApiRegistPhone(Map<String, dynamic> data) async {
   var response = await http.post(
-    Uri.parse('$apiURL/register'),
+    Uri.parse('$apiURL/auth/register'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(data),
   );
-
   return response;
 }
 
@@ -18,7 +17,7 @@ Future<http.Response> postApiRegistPhone(Map<String, dynamic> data) async {
 Future<http.Response> postApiLoginPhone(Map<String, dynamic> data) async {
   print(data);
   var response = await http.post(
-    Uri.parse('$apiURL/login'),
+    Uri.parse('$apiURL/auth/provider'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(data),
   );
