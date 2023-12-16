@@ -1,12 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BerandaController {
+  ValueNotifier<User?> userNotifier = ValueNotifier<User?>(null);
   String? image;
   String? title;
   String? description;
+  String? phoneNumber;
 
   BerandaController(
-      { this.image, this.title,  this.description});
+      { this.image, this.title,  this.description, this.phoneNumber});
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> getUserData() async {
+    final User? currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      userNotifier.value = currentUser;
+    }
+  }
 
   final List<Map<String, String>> dataList = [
     {'title': 'Jenis Kendaraan', 'content': '-'},
@@ -41,6 +53,8 @@ class BerandaController {
     },
     // Add more communities as needed...
   ];
+
+
 }
 
 List<BerandaController> contents = [
