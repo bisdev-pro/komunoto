@@ -9,7 +9,7 @@ import 'package:komunoto/view/home_screen/home_screen.dart';
 import 'package:komunoto/view/onboard/onboard_screen.dart';
 import 'package:komunoto/view/splash_screen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'view/function/firebase_options.dart';
+import 'function/firebase_options.dart';
 import 'package:after_layout/after_layout.dart';
 
 int? initScreen;

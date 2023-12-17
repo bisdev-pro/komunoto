@@ -27,7 +27,9 @@ class _BerandaPageState extends State<BerandaPage> {
       });
     });
     berandaController.getUserData();
+    berandaController.initializeToken();
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -316,7 +318,9 @@ class _BerandaPageState extends State<BerandaPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                             print(berandaController.token);
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

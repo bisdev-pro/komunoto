@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:komunoto/global/env.dart';
 
 class BerandaController {
   ValueNotifier<User?> userNotifier = ValueNotifier<User?>(null);
@@ -7,6 +8,7 @@ class BerandaController {
   String? title;
   String? description;
   String? phoneNumber;
+  String? token;
 
   BerandaController(
       { this.image, this.title,  this.description, this.phoneNumber});
@@ -18,6 +20,11 @@ class BerandaController {
     if (currentUser != null) {
       userNotifier.value = currentUser;
     }
+  }
+
+  Future<void> initializeToken() async {
+    token = await getToken();
+    // Now you can use the token in your BerandaPage
   }
 
   final List<Map<String, String>> dataList = [
