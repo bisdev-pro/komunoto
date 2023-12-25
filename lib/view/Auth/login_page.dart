@@ -9,8 +9,6 @@ import 'package:komunoto/view/Auth/auth_number_phone.dart';
 import 'package:komunoto/custom/button_login_apple.dart';
 import 'package:komunoto/custom/button_login_google.dart';
 import 'package:komunoto/custom/button_login_sent.dart';
-import 'package:komunoto/view/home_screen/home_screen.dart';
-import 'package:komunoto/view/interest_screen/interest_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
