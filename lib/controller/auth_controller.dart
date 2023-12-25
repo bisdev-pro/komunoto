@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:komunoto/after_login.dart';
-import 'package:komunoto/view/form/vehicle_form.dart';
 import 'package:komunoto/function/function_post.dart';
 import 'package:komunoto/view/home_screen/home_screen.dart';
 import 'package:komunoto/view/interest_screen/interest_screen.dart';
@@ -31,8 +29,11 @@ class AuthController {
         Map<String, dynamic> jsonData = jsonDecode(response.body);
         String token = jsonData['data']
             ['token']; // Extract the token from the 'data' object
+        String id = jsonData['data']['user']
+            ['id']; // Extract the token from the 'data' object
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('id', id);
         onLoginSuccess();
       } else if (response.statusCode == 404) {
         // If the server returns an unsuccessful response code,
