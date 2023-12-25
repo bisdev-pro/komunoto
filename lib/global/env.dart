@@ -4,8 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 const dev_url = 'http://178.16.138.109:4000';
 
 
-Future<String?> getToken() async {
+Future<Map<String, String?>> getToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
-  return token;
+  return {'token': token};
 }
+
+
