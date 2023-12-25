@@ -1,10 +1,7 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:komunoto/after_login.dart';
-import 'package:komunoto/view/Auth/login_page.dart';
 import 'package:komunoto/view/home_screen/home_screen.dart';
 import 'package:komunoto/view/onboard/onboard_screen.dart';
 import 'package:komunoto/view/splash_screen/splash_screen.dart';
