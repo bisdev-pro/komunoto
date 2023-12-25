@@ -102,7 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   text: 'Masuk / Daftar',
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                        MaterialPageRoute(builder: (context) => const LoginPage()));
                   },
                 ),
                 const SizedBox(
