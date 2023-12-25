@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:komunoto/controller/beranda_controller.dart';
 import 'package:komunoto/controller/profile_controller.dart';
 import 'package:komunoto/custom/color.dart';
 import 'package:komunoto/view/home_screen/home_screen.dart';
+import 'package:komunoto/view/profile/view_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,10 +17,20 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ProfileController profileController = ProfileController();
+  final BerandaController berandaController = BerandaController();
+  int? progress;
   @override
   void initState() {
     super.initState();
     profileController.getUserData();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    await berandaController.initializeToken();
+    Map<String, dynamic> userData = await berandaController.fetchUserData();
+    progress = int.parse(userData['progress']);
+    setState(() {});
   }
 
   @override
@@ -105,13 +117,47 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: Colors.black,
                                       ),
                                     ),
+                                    if (progress != 100)
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Lengkapi Profil Anda',
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                              fontSize: 5 / width * 720,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 0.1 * width,
+                                          ),
+                                          SizedBox(
+                                            width: 0.2 * width,
+                                            height: 0.01 * height,
+                                            child: LinearProgressIndicator(
+                                              value: (progress ?? 0) / 100,
+                                              backgroundColor: Colors.grey[200],
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          Icon(Icons.edit_outlined,
-                              color: AppColors.primaryColor),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ViewProfile()));
+                            },
+                            child: const Icon(Icons.edit_outlined,
+                                color: AppColors.primaryColor),
+                          ),
                         ]),
                     SizedBox(
                       height: 28 * height / 1280,

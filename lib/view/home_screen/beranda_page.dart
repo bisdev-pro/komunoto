@@ -1,10 +1,15 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:komunoto/controller/beranda_controller.dart';
+import 'package:komunoto/controller/profile_controller.dart';
 import 'package:komunoto/custom/color.dart';
 import 'package:komunoto/view/Auth/login_page.dart';
+import 'package:komunoto/view/home_screen/profile_page..dart';
+import 'package:komunoto/view/interest_screen/interest_screen.dart';
 
 class BerandaPage extends StatefulWidget {
   const BerandaPage({super.key});
@@ -15,8 +20,10 @@ class BerandaPage extends StatefulWidget {
 
 class _BerandaPageState extends State<BerandaPage> {
   final BerandaController berandaController = BerandaController();
+  final ProfileController profileController = ProfileController();
   int _currentPage = 0;
   final _pageController = PageController();
+  int? progress;
 
   @override
   void initState() {
@@ -28,8 +35,15 @@ class _BerandaPageState extends State<BerandaPage> {
     });
     berandaController.getUserData();
     berandaController.initializeToken();
+    fetchData();
   }
-  
+
+  Future<void> fetchData() async {
+    await berandaController.initializeToken();
+    Map<String, dynamic> userData = await berandaController.fetchUserData();
+    progress = int.parse(userData['progress']);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,16 +161,54 @@ class _BerandaPageState extends State<BerandaPage> {
                                                     color: Colors.black,
                                                   ),
                                                 ),
+                                                if (progress != 100)
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Lengkapi Profil Anda',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              5 / width * 720,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 0.1 * width,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 0.2 * width,
+                                                        height: 0.01 * height,
+                                                        child:
+                                                            LinearProgressIndicator(
+                                                          value:
+                                                              (progress ?? 0) /
+                                                                  100,
+                                                          backgroundColor:
+                                                              Colors.grey[200],
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
                                               ],
                                             ),
                                           ),
                                           Expanded(
                                             child: Container(),
                                           ),
-                                          const Icon(
-                                            Icons.settings,
-                                            color: AppColors.primaryColor,
-                                          )
+                                           InkWell(
+                                            onTap: (){
+                                              print(progress);
+                                            },
+                                             child: Icon(
+                                              Icons.settings,
+                                              color: AppColors.primaryColor,
+                                                                                       ),
+                                           )
                                         ]),
                                   ),
                                 ),
@@ -251,13 +303,19 @@ class _BerandaPageState extends State<BerandaPage> {
                                               children: <Widget>[
                                                 InkWell(
                                                   onTap: () {
-                                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const LoginPage()));
                                                   },
                                                   child: Text(
                                                     'Masuk/Daftar',
                                                     style: GoogleFonts.poppins(
-                                                      fontSize: 25 * width / 720,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontSize:
+                                                          25 * width / 720,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: Colors.black,
                                                     ),
                                                   ),
@@ -318,9 +376,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {
-                             print(berandaController.token);
-                            },
+                            onPressed: () {},
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -366,10 +422,15 @@ class _BerandaPageState extends State<BerandaPage> {
                           ),
                         ],
                       ),
-                      Icon(
-                        Icons.add,
-                        size: 56 * width / 720,
-                        color: AppColors.primaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          // Handle the tap event here.
+                        },
+                        child: Icon(
+                          Icons.add,
+                          size: 56 * width / 720,
+                          color: AppColors.primaryColor,
+                        ),
                       )
                     ],
                   ),
@@ -522,7 +583,7 @@ class _BerandaPageState extends State<BerandaPage> {
                           children: [
                             Material(
                               elevation: 1.0, // This will give the 3D effect
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10),
                               ),
