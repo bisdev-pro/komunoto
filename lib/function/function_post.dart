@@ -22,3 +22,14 @@ Future<http.Response> postApiLoginPhone(Map<String, dynamic> data) async {
   );
   return response;
 }
+
+//function post interest
+Future<http.Response> postInterest(String token, List<int> data) async {
+  var response = await http.post(
+    Uri.parse('$dev_url/interest'),
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token', 'Accept': 'application/json',},
+    body: jsonEncode({'id':data}),
+  );
+  return response;
+}
+
