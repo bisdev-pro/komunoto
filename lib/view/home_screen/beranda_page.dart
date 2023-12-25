@@ -238,8 +238,6 @@ class _BerandaPageState extends State<BerandaPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: SizedBox(
                       width: width * 1,
-                      child: Card(
-                        color: Colors.white,
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -336,7 +334,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                 ),
                               ),
                             ]),
-                      ),
+                      
                     ),
                   );
                 }
@@ -512,28 +510,34 @@ class _BerandaPageState extends State<BerandaPage> {
                           Positioned(
                             left: MediaQuery.of(context).size.width * 0.030,
                             top: MediaQuery.of(context).size.height * 0.10,
-                            child: Text(
-                              contents[i].title ?? '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 32 *
-                                    MediaQuery.of(context).size.width /
-                                    720,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:18.0),
+                              child: Text(
+                                contents[i].title ?? '',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 32 *
+                                      MediaQuery.of(context).size.width /
+                                      720,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                           Positioned(
                             left: MediaQuery.of(context).size.width * 0.030,
                             top: MediaQuery.of(context).size.height * 0.12,
-                            child: Text(
-                              contents[i].description ?? '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 20 *
-                                    MediaQuery.of(context).size.width /
-                                    720,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:18.0),
+                              child: Text(
+                                contents[i].description ?? '',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20 *
+                                      MediaQuery.of(context).size.width /
+                                      720,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
