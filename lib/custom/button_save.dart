@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ButtonConfirmationPhone extends StatelessWidget {
+class ButtonSave extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  const ButtonConfirmationPhone(
-      {super.key, required this.text, required this.onPressed});
+  const ButtonSave({super.key, required this.text, required this.onPressed});
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return GestureDetector(
@@ -18,11 +17,12 @@ class ButtonConfirmationPhone extends StatelessWidget {
         height: height * 0.06, // 6% of screen height
         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
         decoration: ShapeDecoration(
-          gradient: const LinearGradient(
+           gradient: const LinearGradient(
             begin: Alignment(0.00, -1.00),
             end: Alignment(0, 1),
             colors: [
-               Color(0xB3EE7D32),
+              
+              Color(0xB3EE7D32),
               Color(0xCCEE7D32),
               Color(0xE6EE7D32),
               Color(0xE6EE7D32),
@@ -39,16 +39,9 @@ class ButtonConfirmationPhone extends StatelessWidget {
             ],
           ),
           shape: RoundedRectangleBorder(
+           
             borderRadius: BorderRadius.circular(20),
           ),
-          shadows: const [
-            BoxShadow(
-              color: Color(0x19000000),
-              blurRadius: 2,
-              offset: Offset(0, 2),
-              spreadRadius: 0,
-            )
-          ],
         ),
         child: Center(
           child: Text(
@@ -57,7 +50,7 @@ class ButtonConfirmationPhone extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.white,
+              color: const Color(0xFFFAFAFA),
             ),
           ),
         ),

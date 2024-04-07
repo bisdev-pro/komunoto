@@ -32,12 +32,24 @@ class BerandaController {
 
   //function to get data from api get profile user
   Future<Map<String, dynamic>> fetchUserData() async {
-    if (token == null) {
+    Map<String, String?> token = await getToken();
+    if (token['token'] == null) {
       throw Exception('Token is null');
+    } else {
+      var data = await getDataUser(token['token']!);
+      return data;
     }
+  }
 
-    var data = await getDataUser(token!); 
-    return data;
+  //function to get default car
+  Future<Map<String, dynamic>> fetchDefaultCar() async {
+    Map<String, String?> token = await getToken();
+    if (token['token'] == null) {
+      throw Exception('Token is null');
+    } else {
+      var data = await getDefaultCar(token['token']!);
+      return data;
+    }
   }
 
   final List<Map<String, String>> dataList = [

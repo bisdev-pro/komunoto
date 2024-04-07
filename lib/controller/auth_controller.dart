@@ -42,7 +42,7 @@ class AuthController {
         //     context, MaterialPageRoute(builder: ((context) => HomeScreen())));
       } else {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Check your internet connection');
+        // BarError.showSnackBar('Check your internet connection');
       }
     } else {
       Map<String, dynamic> data = {
@@ -60,7 +60,7 @@ class AuthController {
         postRegistData(email, phoneNumber, uid);
       } else {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Check your internet connection');
+        // BarError.showSnackBar('Check your internet connection');
       }
     }
   }
@@ -80,13 +80,18 @@ class AuthController {
 
       // Now you can use the response
       if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = jsonDecode(response.body);
+        String token = jsonData['data']
+            ['token']; // Extract the token from the 'data' object
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
         onRegistSuccess();
       } else if (response.statusCode == 404) {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Failed To Register');
+        // BarError.showSnackBar('Failed To Register');
       } else {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Check your internet connection');
+        // BarError.showSnackBar('Check your internet connection');
       }
     } else {
       Map<String, dynamic> data = {
@@ -103,10 +108,10 @@ class AuthController {
         onRegistSuccess();
       } else if (response.statusCode == 404) {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Failed To Register');
+        // BarError.showSnackBar('Failed To Register');
       } else {
         // If the server returns an unsuccessful response code,
-        BarError.showSnackBar('Check your internet connection');
+        // BarError.showSnackBar('Check your internet connection');
       }
     }
   }

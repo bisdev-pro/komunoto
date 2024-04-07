@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // url development
 const dev_url = 'http://178.16.138.109:4000';
+// const dev_url = 'http://api.komunoto.com';
 
 
 Future<Map<String, String?>> getToken() async {

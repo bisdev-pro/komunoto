@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +6,6 @@ import 'package:komunoto/controller/beranda_controller.dart';
 import 'package:komunoto/controller/profile_controller.dart';
 import 'package:komunoto/custom/color.dart';
 import 'package:komunoto/view/Auth/login_page.dart';
-import 'package:komunoto/view/home_screen/profile_page..dart';
-import 'package:komunoto/view/interest_screen/interest_screen.dart';
 
 class BerandaPage extends StatefulWidget {
   const BerandaPage({super.key});
@@ -24,6 +20,10 @@ class _BerandaPageState extends State<BerandaPage> {
   int _currentPage = 0;
   final _pageController = PageController();
   int? progress;
+  String? name;
+  String? model;
+  String? platNumber;
+  String? stnk;
 
   @override
   void initState() {
@@ -36,13 +36,37 @@ class _BerandaPageState extends State<BerandaPage> {
     berandaController.getUserData();
     berandaController.initializeToken();
     fetchData();
+    defaultCar();
   }
 
   Future<void> fetchData() async {
     await berandaController.initializeToken();
     Map<String, dynamic> userData = await berandaController.fetchUserData();
-    progress = int.parse(userData['progress']);
-    setState(() {});
+    if (userData.isEmpty) {
+      progress = int.parse('0');
+      name = '-';
+      setState(() {});
+    } else {
+      progress = int.parse(userData['progress']);
+      name = userData['firstName'];
+      setState(() {});
+    }
+  }
+
+  Future<void> defaultCar() async {
+    await berandaController.initializeToken();
+    Map<String, dynamic> defaultCar = await berandaController.fetchDefaultCar();
+    if (defaultCar.isEmpty) {
+      model = '-';
+      platNumber = '-';
+      stnk = '-';
+      setState(() {});
+    } else {
+      model = defaultCar['vehicleModel']['name'];
+      platNumber = defaultCar['platNumber'];
+      stnk = defaultCar['stnkValidityPeriod'];
+      setState(() {});
+    }
   }
 
   @override
@@ -152,9 +176,9 @@ class _BerandaPageState extends State<BerandaPage> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  user.displayName != null
-                                                      ? user.displayName!
-                                                      : user.phoneNumber!,
+                                                  name ??
+                                                      user.displayName ??
+                                                      'User',
                                                   style: GoogleFonts.poppins(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
@@ -200,15 +224,15 @@ class _BerandaPageState extends State<BerandaPage> {
                                           Expanded(
                                             child: Container(),
                                           ),
-                                           InkWell(
-                                            onTap: (){
+                                          InkWell(
+                                            onTap: () {
                                               print(progress);
                                             },
-                                             child: Icon(
+                                            child: Icon(
                                               Icons.settings,
                                               color: AppColors.primaryColor,
-                                                                                       ),
-                                           )
+                                            ),
+                                          )
                                         ]),
                                   ),
                                 ),
@@ -219,16 +243,74 @@ class _BerandaPageState extends State<BerandaPage> {
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: berandaController.dataList
-                                          .map<Widget>((data) {
-                                        return Column(
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(data['title']!),
-                                            Text(data['content']!),
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Jenis Kendaraan',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 20 * width / 720,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Text(
+                                              model ?? '-',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16 * width / 720,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                            ),
                                           ],
-                                        );
-                                      }).toList()))
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Nomor Plat',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 20 * width / 720,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Text(
+                                              platNumber ?? '-',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16 * width / 720,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Periode STNK',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 20 * width / 720,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Text(
+                                              stnk ?? '-',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16 * width / 720,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ])),
                             ]),
                       ),
                     ),
@@ -238,103 +320,99 @@ class _BerandaPageState extends State<BerandaPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: SizedBox(
                       width: width * 1,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                width: width * 1,
-                                child: Card(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        16, 20, 16, 20),
-                                    child: Row(
-                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Stack(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              width: width * 1,
+                              child: Card(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 20, 16, 20),
+                                  child: Row(
+                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Stack(
+                                          children: <Widget>[
+                                            Positioned.fill(
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: SvgPicture.asset(
+                                                  'assets/icon_navigation/icon_profile.svg',
+                                                  colorFilter:
+                                                      const ColorFilter.mode(
+                                                          Colors.grey,
+                                                          BlendMode.srcIn),
+                                                  height: size *
+                                                      0.8, // adjust the multiplier to fit your needs
+                                                  width: size *
+                                                      0.8, // adjust the multiplier to fit your needs
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: size, // responsive width
+                                              height: size, // responsive height
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: AppColors
+                                                      .primaryColor, // set border color
+                                                  width:
+                                                      5.0, // set border width
+                                                ),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: CircleAvatar(
+                                                radius: size / 2,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              Positioned.fill(
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: SvgPicture.asset(
-                                                    'assets/icon_navigation/icon_profile.svg',
-                                                    colorFilter:
-                                                        const ColorFilter.mode(
-                                                            Colors.grey,
-                                                            BlendMode.srcIn),
-                                                    height: size *
-                                                        0.8, // adjust the multiplier to fit your needs
-                                                    width: size *
-                                                        0.8, // adjust the multiplier to fit your needs
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const LoginPage()));
+                                                },
+                                                child: Text(
+                                                  'Masuk/Daftar',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 25 * width / 720,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                width: size, // responsive width
-                                                height:
-                                                    size, // responsive height
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: AppColors
-                                                        .primaryColor, // set border color
-                                                    width:
-                                                        5.0, // set border width
-                                                  ),
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: CircleAvatar(
-                                                  radius: size / 2,
-                                                  backgroundColor:
-                                                      Colors.transparent,
+                                              Text(
+                                                'Bergabung dengan komunoto sekarang!',
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 18 * width / 720,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                const LoginPage()));
-                                                  },
-                                                  child: Text(
-                                                    'Masuk/Daftar',
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize:
-                                                          25 * width / 720,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Bergabung dengan komunoto sekarang!',
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 18 * width / 720,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ]),
-                                  ),
+                                        ),
+                                      ]),
                                 ),
                               ),
-                            ]),
-                      
+                            ),
+                          ]),
                     ),
                   );
                 }
@@ -511,7 +589,7 @@ class _BerandaPageState extends State<BerandaPage> {
                             left: MediaQuery.of(context).size.width * 0.030,
                             top: MediaQuery.of(context).size.height * 0.10,
                             child: Padding(
-                              padding: const EdgeInsets.only(left:18.0),
+                              padding: const EdgeInsets.only(left: 18.0),
                               child: Text(
                                 contents[i].title ?? '',
                                 style: GoogleFonts.poppins(
@@ -528,7 +606,7 @@ class _BerandaPageState extends State<BerandaPage> {
                             left: MediaQuery.of(context).size.width * 0.030,
                             top: MediaQuery.of(context).size.height * 0.12,
                             child: Padding(
-                              padding: const EdgeInsets.only(left:18.0),
+                              padding: const EdgeInsets.only(left: 18.0),
                               child: Text(
                                 contents[i].description ?? '',
                                 style: GoogleFonts.poppins(

@@ -36,6 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
+  flutter_year_picker: ^0.0.1
   google_fonts: ^6.1.0
   google_sign_in: ^6.1.5
   http: ^1.1.2

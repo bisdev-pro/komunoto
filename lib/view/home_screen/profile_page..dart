@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:komunoto/controller/beranda_controller.dart';
 import 'package:komunoto/controller/profile_controller.dart';
 import 'package:komunoto/custom/color.dart';
+import 'package:komunoto/view/garasi/view_garasi.dart';
 import 'package:komunoto/view/home_screen/home_screen.dart';
 import 'package:komunoto/view/profile/view_profile.dart';
 
@@ -19,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final ProfileController profileController = ProfileController();
   final BerandaController berandaController = BerandaController();
   int? progress;
+  String? name;
   @override
   void initState() {
     super.initState();
@@ -29,8 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> fetchData() async {
     await berandaController.initializeToken();
     Map<String, dynamic> userData = await berandaController.fetchUserData();
+    if (userData.isEmpty) {
+      progress = 0;
+      name = '';
+      setState(() {});
+  } else {
     progress = int.parse(userData['progress']);
+    name = userData['firstName'];
     setState(() {});
+  }
   }
 
   @override
@@ -108,9 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     Text(
-                                      user.displayName != null
-                                          ? user.displayName!
-                                          : user.phoneNumber!,
+                                     name ?? user.displayName ?? 'User',
                                       style: GoogleFonts.poppins(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -173,26 +180,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 20 * height / 1280,
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                            'assets/icon_navigation/icon_bengkel.svg',
-                            height: 16,
-                            width: 16,
-                            colorFilter: const ColorFilter.mode(
-                                Colors.black, BlendMode.srcIn)),
-                        SizedBox(
-                          width: 14 * width / 720,
-                        ),
-                        Text(
-                          'Garasi',
-                          style: GoogleFonts.poppins(
-                            fontSize: 20 * width / 720,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewGarasi()));
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                              'assets/icon_navigation/icon_bengkel.svg',
+                              height: 16,
+                              width: 16,
+                              colorFilter: const ColorFilter.mode(
+                                  Colors.black, BlendMode.srcIn)),
+                          SizedBox(
+                            width: 14 * width / 720,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Garasi',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20 * width / 720,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 20 * height / 1280,

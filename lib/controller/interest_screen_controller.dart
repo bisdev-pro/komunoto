@@ -39,7 +39,7 @@ class InterestScreenController {
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
       // If the server did not return a 201 response, throw an exception.
-      BarError.showSnackBar('Check your internet connection');
+      // BarError.showSnackBar('Check your internet connection');
     }
   }
 }
